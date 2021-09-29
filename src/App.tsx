@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { SortingPanel } from "./feature/sorting/SortingPanel";
 
 export const App = () => {
   return (
@@ -8,7 +9,9 @@ export const App = () => {
         <img src={"Logo.png"} alt="logo" />
       </div>
       <div className="app-body">
-        <div className="left side column"></div>
+        <div className="left side column">
+          <SortingPanel />
+        </div>
         <div className="middle column"></div>
         <div className="right side column"></div>
       </div>
