@@ -1,7 +1,9 @@
+import { filterSlice } from './../feature/filter/filterSlice';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
+    filter: filterSlice.reducer
   },
 });
 
