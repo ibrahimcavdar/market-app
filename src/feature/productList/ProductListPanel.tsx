@@ -1,7 +1,12 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const ProductListPanel = () => {
+  useEffect(() => {
+    fetch("http://localhost:8080/items?itemType=shirt&manufacturer=OHara-Group&_page=1&_limit=16&_sort=price&_order=asc&tags_like=Person")
+    .then((res) => res.json())
+    .then(data=>console.log(data));
+  }, []);
   return (
     <Grid
       container
