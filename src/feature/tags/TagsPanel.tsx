@@ -7,9 +7,39 @@ import {
   ListItemIcon,
   ListItemText
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Product } from "../productList/ProductListPanel";
 
 export const TagsPanel = () => {
+  const [tagList, setTagList] = useState<Array<{tag:string,count:number}>>([]);
+
+  useEffect(() => {
+    // todo combine this with the one in ProductListPanel
+    fetch(`http://localhost:8080/items`)
+    .then((res) => res.json())
+    .then(data =>{
+      const tags: Record<string,number> = {};
+      data.map((product: Product) => {
+        product.tags.forEach(tag => {
+          tags[tag] = tags[tag] ? tags[tag]+1 : 1;
+        })
+
+      })
+
+      const tagsArray = [{
+        tag: "All",
+        count: data.length
+      }];
+
+    
+      for (const [key, value] of Object.entries(tags)) {
+        tagsArray.push({tag:key,count:value});
+
+      }
+
+      setTagList(tagsArray);
+    });
+  }, []);
   return (
     <div>
       <FormControl component="fieldset">
@@ -35,16 +65,11 @@ export const TagsPanel = () => {
             bgcolor: "background.paper",
           }}
         >
-          {[
-            "All",
-            "Beach",
-            "People",
-            "Bicycle",
-          ].map((value) => {
-            const labelId = `checkbox-list-label-${value}`;
+          {tagList.map((tagEntry) => {
+            const labelId = `checkbox-list-label-${tagEntry.tag}`;
 
             return (
-              <ListItem key={value} disablePadding>
+              <ListItem key={tagEntry.tag} disablePadding>
                 <ListItemButton
                   role={undefined}
                   //   onClick={handleToggle(value)}
@@ -59,7 +84,7 @@ export const TagsPanel = () => {
                       inputProps={{ "aria-labelledby": labelId }}
                     />
                   </ListItemIcon>
-                  <ListItemText id={labelId} primary={`${value}  (?)`} />
+                  <ListItemText id={labelId} primary={`${tagEntry.tag}  (${tagEntry.count})`} />
                 </ListItemButton>
               </ListItem>
             );
