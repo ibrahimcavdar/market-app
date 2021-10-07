@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BasketPanel } from "./feature/basket/BasketPanel";
 import { BasketToolbar } from "./feature/basket/BasketToolbar";
@@ -13,7 +13,7 @@ export const App = () => {
     <div className="app">
       <div className="header">
         <img src={"Logo.png"} alt="logo" />
-        <BasketToolbar/>
+        <BasketToolbar />
       </div>
       <div className="app-body">
         <div className="left side column">

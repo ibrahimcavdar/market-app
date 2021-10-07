@@ -20,10 +20,8 @@ export const BrandsPanel = () => {
       .then(data => {
         const brands: Record<string, number> = {};
         data.map((product: Product) => {
-          product.tags.forEach(brand => {
-            brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
-          })
-
+          const brand = product.manufacturer;
+          brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
         })
 
         const brandsArray = [{
@@ -34,7 +32,6 @@ export const BrandsPanel = () => {
 
         for (const [key, value] of Object.entries(brands)) {
           brandsArray.push({ brand: key, count: value });
-
         }
 
         setBrandsList(brandsArray);
@@ -65,16 +62,11 @@ export const BrandsPanel = () => {
             bgcolor: "background.paper",
           }}
         >
-          {[
-            "All",
-            "Konopelski Group",
-            "Rice Inc",
-            "Feil, Dooley and Reinger",
-          ].map((value) => {
-            const labelId = `checkbox-list-label-${value}`;
+          {brandsList.map((brandEntry) => {
+            const labelId = `checkbox-list-label-${brandEntry}`;
 
             return (
-              <ListItem key={value} disablePadding>
+              <ListItem key={brandEntry.brand} disablePadding>
                 <ListItemButton
                   role={undefined}
                   //   onClick={handleToggle(value)}
@@ -89,7 +81,7 @@ export const BrandsPanel = () => {
                       inputProps={{ "aria-labelledby": labelId }}
                     />
                   </ListItemIcon>
-                  <ListItemText id={labelId} primary={`${value}  (?)`} />
+                  <ListItemText id={labelId} primary={`${brandEntry.brand}  (${brandEntry.count})`} />
                 </ListItemButton>
               </ListItem>
             );
