@@ -11,34 +11,34 @@ import React, { useEffect, useState } from "react";
 import { Product } from "../productList/ProductListPanel";
 
 export const TagsPanel = () => {
-  const [tagList, setTagList] = useState<Array<{tag:string,count:number}>>([]);
+  const [tagList, setTagList] = useState<Array<{ tag: string, count: number }>>([]);
 
   useEffect(() => {
     // todo combine this with the one in ProductListPanel
     fetch(`http://localhost:8080/items`)
-    .then((res) => res.json())
-    .then(data =>{
-      const tags: Record<string,number> = {};
-      data.map((product: Product) => {
-        product.tags.forEach(tag => {
-          tags[tag] = tags[tag] ? tags[tag]+1 : 1;
+      .then((res) => res.json())
+      .then(data => {
+        const tags: Record<string, number> = {};
+        data.map((product: Product) => {
+          product.tags.forEach(tag => {
+            tags[tag] = tags[tag] ? tags[tag] + 1 : 1;
+          })
+
         })
 
-      })
+        const tagsArray = [{
+          tag: "All",
+          count: data.length
+        }];
 
-      const tagsArray = [{
-        tag: "All",
-        count: data.length
-      }];
 
-    
-      for (const [key, value] of Object.entries(tags)) {
-        tagsArray.push({tag:key,count:value});
+        for (const [key, value] of Object.entries(tags)) {
+          tagsArray.push({ tag: key, count: value });
 
-      }
+        }
 
-      setTagList(tagsArray);
-    });
+        setTagList(tagsArray);
+      });
   }, []);
   return (
     <div>

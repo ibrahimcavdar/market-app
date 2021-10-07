@@ -7,9 +7,39 @@ import {
   ListItemIcon,
   ListItemText
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Product } from "../productList/ProductListPanel";
 
 export const BrandsPanel = () => {
+  const [brandsList, setBrandsList] = useState<Array<{ brand: string, count: number }>>([]);
+
+  useEffect(() => {
+    // todo combine this with the one in ProductListPanel
+    fetch(`http://localhost:8080/items`)
+      .then((res) => res.json())
+      .then(data => {
+        const brands: Record<string, number> = {};
+        data.map((product: Product) => {
+          product.tags.forEach(brand => {
+            brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
+          })
+
+        })
+
+        const brandsArray = [{
+          brand: "All",
+          count: data.length
+        }];
+
+
+        for (const [key, value] of Object.entries(brands)) {
+          brandsArray.push({ brand: key, count: value });
+
+        }
+
+        setBrandsList(brandsArray);
+      });
+  }, []);
   return (
     <div>
       <FormControl component="fieldset">
