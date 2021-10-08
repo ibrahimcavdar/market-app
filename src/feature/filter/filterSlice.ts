@@ -1,21 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type ItemType = 'mug' | 'shirt';
+
 export const filterSlice = createSlice({
     name: 'filter',
-    initialState: '',
+    initialState: 'mug' as ItemType,
     reducers: {
-        // Toggle filter to be inactive if selected. Apply the pressed filter otherwise
-        toggle: (state, action: PayloadAction<'mug' | 'shirt'>) => {
-            console.log("state", state, action);
-
-            if (state === action.payload) {
-                return '';
-            }
+        setItemType: (state, action: PayloadAction<ItemType>) => {
             return action.payload;
         },
     },
 });
 
-export const { toggle } = filterSlice.actions;
+export const { setItemType } = filterSlice.actions;
 
 export default filterSlice.reducer;
