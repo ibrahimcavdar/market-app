@@ -1,40 +1,54 @@
 import { Search } from "@mui/icons-material";
 import {
-  Checkbox, FormControl,
-  FormLabel, IconButton, Input, List,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Product } from "../productList/ProductListPanel";
+import { toggleTag } from "./tagSlice";
+
+interface TagEntry {
+  tag: string;
+  count: number;
+}
 
 export const TagsPanel = () => {
-  const [tagList, setTagList] = useState<Array<{ tag: string, count: number }>>([]);
+  const [tagList, setTagList] = useState<TagEntry[]>([]);
+
+  const selectedTags = useAppSelector((state) => state.tag);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // todo combine this with the one in ProductListPanel
     fetch(`http://localhost:8080/items`)
       .then((res) => res.json())
-      .then(data => {
+      .then((data) => {
         const tags: Record<string, number> = {};
         data.map((product: Product) => {
-          product.tags.forEach(tag => {
+          product.tags.forEach((tag) => {
             tags[tag] = tags[tag] ? tags[tag] + 1 : 1;
-          })
+          });
+        });
 
-        })
-
-        const tagsArray = [{
-          tag: "All",
-          count: data.length
-        }];
-
+        const tagsArray: TagEntry[] = [
+          {
+            tag: "All",
+            count: data.length,
+          },
+        ];
 
         for (const [key, value] of Object.entries(tags)) {
           tagsArray.push({ tag: key, count: value });
-
         }
 
         setTagList(tagsArray);
@@ -72,19 +86,24 @@ export const TagsPanel = () => {
               <ListItem key={tagEntry.tag} disablePadding>
                 <ListItemButton
                   role={undefined}
-                  //   onClick={handleToggle(value)}
+                  onClick={()=>{
+                    dispatch(toggleTag(tagEntry.tag))
+                  }}
                   dense
                 >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
-                      //   checked={checked.indexOf(value) !== -1}
+                      checked={selectedTags.includes(tagEntry.tag)}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ "aria-labelledby": labelId }}
                     />
                   </ListItemIcon>
-                  <ListItemText id={labelId} primary={`${tagEntry.tag}  (${tagEntry.count})`} />
+                  <ListItemText
+                    id={labelId}
+                    primary={`${tagEntry.tag}  (${tagEntry.count})`}
+                  />
                 </ListItemButton>
               </ListItem>
             );

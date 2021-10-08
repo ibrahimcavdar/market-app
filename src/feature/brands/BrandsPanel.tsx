@@ -8,11 +8,22 @@ import {
   ListItemText
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Product } from "../productList/ProductListPanel";
+import { toggleBrand } from "./brandSlice";
+
+interface BrandEntry {
+  brand: string;
+  count: number;
+}
 
 export const BrandsPanel = () => {
-  const [brandsList, setBrandsList] = useState<Array<{ brand: string, count: number }>>([]);
+  const [brandsList, setBrandsList] = useState<BrandEntry[]>([]);
 
+  const selectedBrands = useAppSelector(state => state.brand);
+
+  const dispatch = useAppDispatch();
+  
   useEffect(() => {
     // todo combine this with the one in ProductListPanel
     fetch(`http://localhost:8080/items`)
@@ -24,7 +35,7 @@ export const BrandsPanel = () => {
           brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
         })
 
-        const brandsArray = [{
+        const brandsArray:BrandEntry[] = [{
           brand: "All",
           count: data.length
         }];
@@ -69,13 +80,15 @@ export const BrandsPanel = () => {
               <ListItem key={brandEntry.brand} disablePadding>
                 <ListItemButton
                   role={undefined}
-                  //   onClick={handleToggle(value)}
+                  onClick={()=>{
+                    dispatch(toggleBrand(brandEntry.brand))
+                  }}
                   dense
                 >
                   <ListItemIcon>
                     <Checkbox
                       edge="start"
-                      //   checked={checked.indexOf(value) !== -1}
+                      checked={selectedBrands.includes(brandEntry.brand)}
                       tabIndex={-1}
                       disableRipple
                       inputProps={{ "aria-labelledby": labelId }}

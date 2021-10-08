@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export const tagSlice = createSlice({
-    name: 'tag',
+export const brandSlice = createSlice({
+    name: 'brand',
     initialState: ['All'],
     reducers: {
-        toggleTag: (state, action: PayloadAction<string>) => {
+        toggleBrand: (state, action: PayloadAction<string>) => {
             if (state.includes("All")) {
                 return [action.payload];
             }
@@ -13,16 +13,16 @@ export const tagSlice = createSlice({
                 return ["All"];
             }
 
-            const tagPosition = state.indexOf(action.payload);
-            if (tagPosition === -1) {
+            const brandPosition = state.indexOf(action.payload);
+            if (brandPosition === -1) {
                 state.push(action.payload);
             } else {
-                state.splice(tagPosition, 1);
+                state.splice(brandPosition, 1);
             }
         },
     },
 });
 
-export const { toggleTag } = tagSlice.actions;
+export const { toggleBrand } = brandSlice.actions;
 
-export default tagSlice.reducer;
+export default brandSlice.reducer;

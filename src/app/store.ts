@@ -1,11 +1,13 @@
 import filterSlice from './../feature/filter/filterSlice';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import tagSlice from '../feature/tags/tagSlice';
+import brandSlice from '../feature/brands/brandSlice';
 
 export const store = configureStore({
   reducer: {
     filter: filterSlice,
-    tag: tagSlice
+    tag: tagSlice,
+    brand: brandSlice
   },
 });
 
