@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
+import { ProductCard } from "../product/ProductCard";
 
 type ItemType = "mug" | "shirt" | "";
 
@@ -32,12 +33,13 @@ export const ProductListPanel = () => {
     return (
         <Grid
             container
+            padding={4}
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
         >
             {productList.map((product, index) => (
-                <Grid item xs={2} sm={4} md={4} key={index}>
-                    <div>{product.name}</div>
+                <Grid item xs={2} sm={4} md={3} key={index}>
+                    <ProductCard product={product} key={product.slug} />
                 </Grid>
             ))}
         </Grid>
