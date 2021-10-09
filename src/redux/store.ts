@@ -4,6 +4,7 @@ import tagSlice from '../feature/tags/tagSlice';
 import brandSlice from '../feature/brands/brandSlice';
 import sortingSlice from '../feature/sorting/sortingSlice';
 import basketSlice from '../feature/basket/basketSlice';
+import pageSlice from '../feature/pagination/pageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     tag: tagSlice,
     brand: brandSlice,
     sorting: sortingSlice,
-    basket: basketSlice
+    basket: basketSlice,
+    page: pageSlice
   },
 });
 

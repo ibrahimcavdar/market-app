@@ -1,6 +1,8 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../redux/hooks";
+import { PAGE_LIMIT } from "../../globals";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setPageCount } from "../pagination/pageSlice";
 import { ProductCard } from "../product/ProductCard";
 
 type ItemType = "mug" | "shirt" | "";
@@ -23,11 +25,14 @@ export const ProductListPanel = () => {
     const { order, sortBy } = useAppSelector((state) => state.sorting);
     const brandList = useAppSelector((state) => state.brand);
     const tagList = useAppSelector((state) => state.tag);
+    const selectedPage = useAppSelector((state) => state.page.selectedPage);
+
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
         // Create query params
         let url = "http://localhost:8080/items?";
-        // todo page
-        const pageQuery = `_page=1&_limit=16`;
+        const pageQuery = `_page=${selectedPage+1}&_limit=${PAGE_LIMIT}`;
         const itemTypeQuery = `&itemType=${itemType}`;
         const sortQuery = `&_sort=${sortBy}&_order=${order}`;
 
@@ -51,12 +56,15 @@ export const ProductListPanel = () => {
         fetch(
             url + pageQuery + itemTypeQuery + sortQuery + tagQuery + brandQuery
         )
-            .then((res) => res.json())
+            .then((res) => {
+                dispatch(setPageCount(Math.ceil(Number(res.headers.get('X-Total-Count'))/PAGE_LIMIT)));
+                return res.json();
+            })
             .then((data) => {
                 setProductList(data);
                 console.log(data);
             });
-    }, [itemType, order, sortBy, brandList, tagList]);
+    }, [itemType, order, sortBy, brandList, tagList,dispatch,selectedPage]);
     return (
         <Grid
             container

@@ -4,6 +4,7 @@ import { BasketPanel } from "./feature/basket/BasketPanel";
 import { BasketToolbar } from "./feature/basket/BasketToolbar";
 import { BrandsPanel } from "./feature/brands/BrandsPanel";
 import { FilterPanel } from "./feature/filter/FilterPanel";
+import { Paginate } from "./feature/pagination/Pagination";
 import { Product, ProductListPanel } from "./feature/productList/ProductListPanel";
 import { SortingPanel } from "./feature/sorting/SortingPanel";
 import { TagsPanel } from "./feature/tags/TagsPanel";
@@ -38,6 +39,7 @@ export const App = () => {
           <div>Products</div>
           <FilterPanel />
           <ProductListPanel />
+          <Paginate />
         </div>
         <div className="right side column">
           <BasketPanel />
