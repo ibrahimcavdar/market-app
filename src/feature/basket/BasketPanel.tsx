@@ -3,12 +3,13 @@ import {
   Box,
   Grid,
   IconButton, List,
-  ListItem, ListItemText, Stack, styled
+  ListItem, Stack, styled
 } from "@mui/material";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Product } from "../productList/ProductListPanel";
 import { addItemToBasket, removeItemFromBasket } from "./basketSlice";
+import { calculatePrice } from "./calculatePrice";
 
 export const BasketPanel = () => {
   const basketItems = useAppSelector(state => state.basket);
@@ -24,14 +25,14 @@ export const BasketPanel = () => {
   }
 
   return (
-    <div>
+    <Box border="8px solid #1EA4CE" padding={1} >
 
       <List
         sx={{
           width: "100%",
           maxWidth: 360,
-          height: "10%",
-          maxHeight: "17vh",
+          height: "auto",
+          maxHeight: "70vh",
           overflow: "auto",
           bgcolor: "background.paper",
         }}
@@ -51,8 +52,8 @@ export const BasketPanel = () => {
               <Grid container spacing={2}>
                 <Grid item xs container direction="column" spacing={2}  >
                   <Grid item xs textOverflow={"ellipsis"}>
-                    <div>Product 1</div>
-                    <div>14.99</div>
+                    <div>{product.name}</div>
+                    <div>{product.price}</div>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -71,7 +72,10 @@ export const BasketPanel = () => {
           );
         })}
       </List>
-    </div>
+      <Box border="2px solid #1EA4CE" width={100} height={50}>
+        {calculatePrice(Object.values(basketItems))}
+      </Box>
+    </Box>
   );
 };
 

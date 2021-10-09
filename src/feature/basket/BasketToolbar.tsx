@@ -1,6 +1,8 @@
 import { Grid, Icon, SvgIcon } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { calculatePrice } from "./calculatePrice";
 
 const MyBasket = styled("div")({
   position: "absolute",
@@ -11,6 +13,7 @@ const MyBasket = styled("div")({
 });
 
 export const BasketToolbar = () => {
+  const basketItems = useAppSelector(state => state.basket);
   return (
     <MyBasket>
       {/* <Icon >
@@ -23,7 +26,7 @@ export const BasketToolbar = () => {
           {/* </Icon> */}
             <img src={"basket.svg"} alt={"basket"}  height={25} width={25}/>
         </Grid>
-        <Grid item>39,97</Grid>
+        <Grid item>{calculatePrice(Object.values(basketItems))}</Grid>
       </Grid>
     </MyBasket>
   );

@@ -1,7 +1,7 @@
 import { Product } from './../productList/ProductListPanel';
 import { createSlice, PayloadAction,current } from '@reduxjs/toolkit';
 
-interface BasketEntry {
+export interface BasketEntry {
     product: Product;
     count: number;
 }
