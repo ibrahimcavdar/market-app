@@ -4,8 +4,23 @@ import {
     ListItem, ListItemText
 } from "@mui/material";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Product } from "../productList/ProductListPanel";
+import { addItemToBasket, removeItemFromBasket } from "./basketSlice";
 
 export const BasketPanel = () => {
+  const basketItems = useAppSelector(state => state.basket);
+
+  const dispatch = useAppDispatch();
+
+  const handleRemove = (product: Product)=>{
+    dispatch(removeItemFromBasket(product));
+  }
+
+  const handleAdd = (product: Product)=>{
+    dispatch(addItemToBasket(product));
+  }
+
   return (
     <div>
       <List
@@ -18,27 +33,30 @@ export const BasketPanel = () => {
           bgcolor: "background.paper",
         }}
       >
-        {["14,99", "14,99", "9,99"].map((value, index) => {
-          const labelId = `checkbox-list-label-${value}`;
+        {Object.keys(basketItems).map((key, index) => {
+          console.log(key,basketItems[key]);
+          const basketEntry = basketItems[key];
+          const {product,count} = basketEntry;
+          const labelId = `checkbox-list-label-${key}`;
 
           return (
             <ListItem
-              key={value}
+              key={key}
               disablePadding
               secondaryAction={
                 <div>
                   <IconButton edge="end" aria-label="comments">
-                    <Remove />
+                    <Remove onClick={()=>handleRemove(product)} />
                   </IconButton>
                   &nbsp;&nbsp;
-                  <span>1</span>
+                  <span>{count}</span>
                   <IconButton edge="end" aria-label="comments">
-                    <Add />
+                    <Add onClick={()=>handleAdd(product)}/>
                   </IconButton>
                 </div>
               }
             >
-              <ListItemText id={labelId} primary={`Product ${index}`} />
+              <ListItemText id={labelId} primary={`${product.name}`} />
             </ListItem>
           );
         })}
