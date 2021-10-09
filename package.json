@@ -29,6 +29,7 @@
     "typescript": "~4.1.5"
   },
   "scripts": {
+    "json-server:start": "node src/data/server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
