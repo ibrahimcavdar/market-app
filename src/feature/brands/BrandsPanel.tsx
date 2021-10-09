@@ -17,37 +17,31 @@ interface BrandEntry {
   count: number;
 }
 
-export const BrandsPanel = () => {
-  const [brandsList, setBrandsList] = useState<BrandEntry[]>([]);
+interface Props {
+  productList: Product[];
+}
 
+export const BrandsPanel = ({productList}: Props) => {
   const selectedBrands = useAppSelector(state => state.brand);
 
   const dispatch = useAppDispatch();
   
-  useEffect(() => {
-    // todo combine this with the one in ProductListPanel
-    fetch(`http://localhost:8080/items`)
-      .then((res) => res.json())
-      .then(data => {
-        const brands: Record<string, number> = {};
-        data.map((product: Product) => {
-          const brand = product.manufacturer;
-          brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
-        })
 
-        const brandsArray:BrandEntry[] = [{
-          brand: "All",
-          count: data.length
-        }];
+  const brands: Record<string, number> = {};
+  productList.map((product: Product) => {
+    const brand = product.manufacturer;
+    brands[brand] = brands[brand] ? brands[brand] + 1 : 1;
+  })
+
+  const brandsList:BrandEntry[] = [{
+    brand: "All",
+    count: productList.length
+  }];
 
 
-        for (const [key, value] of Object.entries(brands)) {
-          brandsArray.push({ brand: key, count: value });
-        }
-
-        setBrandsList(brandsArray);
-      });
-  }, []);
+  for (const [key, value] of Object.entries(brands)) {
+    brandsList.push({ brand: key, count: value });
+  }
   return (
     <div>
       <FormControl component="fieldset">

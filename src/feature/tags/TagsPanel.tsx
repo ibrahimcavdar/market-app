@@ -21,39 +21,33 @@ interface TagEntry {
   count: number;
 }
 
-export const TagsPanel = () => {
-  const [tagList, setTagList] = useState<TagEntry[]>([]);
+interface Props {
+  productList: Product[];
+}
 
-  const selectedTags = useAppSelector((state) => state.tag);
+export const TagsPanel = ({ productList }: Props) => {
+  const selectedTags = useAppSelector(state => state.tag);
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    // todo combine this with the one in ProductListPanel
-    fetch(`http://localhost:8080/items`)
-      .then((res) => res.json())
-      .then((data) => {
-        const tags: Record<string, number> = {};
-        data.map((product: Product) => {
-          product.tags.forEach((tag) => {
-            tags[tag] = tags[tag] ? tags[tag] + 1 : 1;
-          });
-        });
+  const tags: Record<string, number> = {};
+  productList.map((product: Product) => {
+    product.tags.forEach((tag) => {
+      tags[tag] = tags[tag] ? tags[tag] + 1 : 1;
+    });
+  });
 
-        const tagsArray: TagEntry[] = [
-          {
-            tag: "All",
-            count: data.length,
-          },
-        ];
+  const tagList: TagEntry[] = [
+    {
+      tag: "All",
+      count: productList.length,
+    },
+  ];
 
-        for (const [key, value] of Object.entries(tags)) {
-          tagsArray.push({ tag: key, count: value });
-        }
+  for (const [key, value] of Object.entries(tags)) {
+    tagList.push({ tag: key, count: value });
+  }
 
-        setTagList(tagsArray);
-      });
-  }, []);
   return (
     <div>
       <FormControl component="fieldset">
@@ -86,7 +80,7 @@ export const TagsPanel = () => {
               <ListItem key={tagEntry.tag} disablePadding>
                 <ListItemButton
                   role={undefined}
-                  onClick={()=>{
+                  onClick={() => {
                     dispatch(toggleTag(tagEntry.tag))
                   }}
                   dense
