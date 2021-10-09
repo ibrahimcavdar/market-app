@@ -6,7 +6,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   setSortOrder,
   setSortProperty,

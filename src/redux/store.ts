@@ -1,4 +1,4 @@
-import filterSlice from './../feature/filter/filterSlice';
+import filterSlice from '../feature/filter/filterSlice';
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import tagSlice from '../feature/tags/tagSlice';
 import brandSlice from '../feature/brands/brandSlice';

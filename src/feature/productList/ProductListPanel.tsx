@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import { ProductCard } from "../product/ProductCard";
 
 type ItemType = "mug" | "shirt" | "";

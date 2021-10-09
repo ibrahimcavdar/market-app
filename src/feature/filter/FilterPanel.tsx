@@ -1,6 +1,6 @@
 import { Button, Stack } from "@mui/material";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ItemType, setItemType } from "./filterSlice";
 
 export const FilterPanel = () => {

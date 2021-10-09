@@ -8,7 +8,7 @@ import {
   ListItemText
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Product } from "../productList/ProductListPanel";
 import { toggleBrand } from "./brandSlice";
 

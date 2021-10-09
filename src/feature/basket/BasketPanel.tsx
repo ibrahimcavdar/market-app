@@ -4,7 +4,7 @@ import {
     ListItem, ListItemText
 } from "@mui/material";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Product } from "../productList/ProductListPanel";
 import { addItemToBasket, removeItemFromBasket } from "./basketSlice";
 

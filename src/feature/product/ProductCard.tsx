@@ -1,7 +1,7 @@
 import { Image } from "@mui/icons-material";
 import { Box, Button, Paper, Stack, styled } from "@mui/material";
 import React, { MouseEventHandler } from "react";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { addItemToBasket } from "../basket/basketSlice";
 import { Product } from "../productList/ProductListPanel";
 
